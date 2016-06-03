@@ -299,9 +299,11 @@ namespace systemEval
         {
             int i = 0;
             int j = 0;
+            int k = 0;
 
             List<LogAnalyzer> subOrgData = LogAnalyzer.sortBySubFails(logAnalyzerData);
             List<LogAnalyzer> conOrgData = LogAnalyzer.sortByConVios(logAnalyzerData);
+            List<string> stateVarList = new List<string>();
 
             // Output Log Data Analyzer to .csv file
 
@@ -377,20 +379,23 @@ namespace systemEval
                                 {
                                     if (subsys.StateVars.Contains(item3))
                                     {
-                                        if (j > 0)
+                                        if (j > 0 && stateVarList.Contains(item3) == false)
                                         {
                                             conOrgDataWrite.Write(",,,,," + item3);
+                                            stateVarList.Add(item3);
+                                            conOrgDataWrite.Write(Environment.NewLine);
                                         }
-                                        else
+                                        else if (j == 0)
                                         {
+                                            stateVarList.Clear();
                                             conOrgDataWrite.Write("," + item3);
+                                            stateVarList.Add(item3);
+                                            conOrgDataWrite.Write(Environment.NewLine);
                                         }
-                                        conOrgDataWrite.Write(Environment.NewLine);
                                         j++;
                                     }
                                 }
-                                //conOrgDataWrite.Write("," + item.VioNames[i]);
-                                //conOrgDataWrite.Write(Environment.NewLine);
+                                stateVarList.Clear();
                                 j = 0;
                             }
 
@@ -404,21 +409,25 @@ namespace systemEval
                                 {
                                     if (subsys.StateVars.Contains(item3))
                                     {
-                                        if (j > 0)
-                                        {
-                                            conOrgDataWrite.Write(",,,,," + item3);
-                                        }
-                                        else
+                                        if (k == 0)
                                         {
                                             conOrgDataWrite.Write("," + item3);
+                                            stateVarList.Add(item3);
+                                            conOrgDataWrite.Write(Environment.NewLine);
                                         }
-                                        conOrgDataWrite.Write(Environment.NewLine);
+                                        else if (j > 0 && stateVarList.Contains(item3) == false)
+                                        {
+                                            conOrgDataWrite.Write(",,,,," + item3);
+                                            stateVarList.Add(item3);
+                                            conOrgDataWrite.Write(Environment.NewLine);
+                                        }
                                         j++;
+                                        k++;
                                     }
                                 }
-                                //conOrgDataWrite.Write("," + item.VioNames[i]);
-                                //conOrgDataWrite.Write(Environment.NewLine);
+                                stateVarList.Clear();
                             }
+                            k = 0;
                             i++;
                         }
                         i = 0;

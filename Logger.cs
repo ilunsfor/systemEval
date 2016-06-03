@@ -13,9 +13,9 @@ namespace systemEval
 
         public static void Output(LogData logData)
         {
-            if(Log == null)
+            if (Log == null)
                 Log = new Log();
-            Log.Add(logData);
+                Log.Add(logData);
         }
     }
 }
